@@ -41,11 +41,32 @@ const Login = () => {
                   <Formik
                     initialValues={{ email: "", password: "" }}
                     validationSchema={validateSchema}
-                    onSubmit={(values, { setSubmitting }) => {
-                      setTimeout(() => {
-                        alert(JSON.stringify(values, null, 2));
-                        setSubmitting(false);
-                      }, 400);
+                    onSubmit={async (values, { setSubmitting }) => {
+                      await axios({
+                        url:'/',
+                        method:'POST',
+                        data:{
+                          query: `query Query($phone: String!, $password: String!) {
+                            login(phone: $phone, password: $password) {
+                              status
+                              message
+                              token
+                            }
+                          }`,
+                        variables: {
+                          phone: values.email,
+                          password: values.password,
+                        },
+                        }
+                      }).then(res=>{
+                        if(res.data!=null&&res.data.data!=null){
+                          console.log(res.data.data.login)
+                        }else{
+                          console.log(res.data.errors[0])
+                        }
+                      }).catch(err=>console.log(err))
+                      
+                      setSubmitting(false);
                     }}
                   >
                     {({
