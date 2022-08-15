@@ -15,19 +15,17 @@ import {
 } from "@coreui/react";
 import CIcon from "@coreui/icons-react";
 import { Formik } from "formik";
-import * as yup from "yup";
+import * as Yup from "yup";
 import axios from "axios";
 import { cilLockLocked, cilUser } from "@coreui/icons";
 
 const Login = () => {
-  const validateSchema = yup.object().shape({
-    email: yup
-      .string()
+  const validateSchema = Yup.object().shape({
+    email: Yup.string()
       .min(11, "نام کاربری شما باید 11 کاراکتر باشد")
       .max(11, "نام کاربری شما باید 11 کاراکتر باشد")
       .required(),
-    password: yup
-      .string()
+    password: Yup.string()
       .min(6, "رمزعبور شما باید بیشتراز 6 کاراکتر باشد")
       .max(30, "رمز شما نبایدبیشتر از 30 کاراکتر باشد")
       .required(),
@@ -42,27 +40,12 @@ const Login = () => {
                 <CCardBody>
                   <Formik
                     initialValues={{ email: "", password: "" }}
-                    validateSchema={validateSchema}
+                    validationSchema={validateSchema}
                     onSubmit={(values, { setSubmitting }) => {
-                      axios({
-                        url: "/",
-                        method: "post",
-                        data: JSON.stringify({
-                          query: `query Query($phone: String!, $password: String!) {
-                            login(phone: $phone, password: $password) {
-                              status
-                              message
-                            }
-                          }
-                          `,
-                          variables: {
-                            phone: "09195888177",
-                            password: "123456",
-                          },
-                        }),
-                      }).then((res)=>{
-                        console.log(res)
-                      }).catch(err=>console.log(err))
+                      setTimeout(() => {
+                        alert(JSON.stringify(values, null, 2));
+                        setSubmitting(false);
+                      }, 400);
                     }}
                   >
                     {({
@@ -76,58 +59,49 @@ const Login = () => {
                       /* and other goodies */
                     }) => (
                       <form onSubmit={handleSubmit}>
-                        <h2>پنل مدیریت فروشگاه</h2>
-                        <p className="text-medium-emphasis">
-                          به حساب کاربری خود وارد شوید
-                        </p>
                         <CInputGroup className="mb-3">
                           <CInputGroupText>
                             <CIcon icon={cilUser} />
                           </CInputGroupText>
                           <CFormInput
-                            type="text"
+                            type="string"
                             name="email"
-                            placeholder="Username"
-                            autoComplete="username"
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.email}
                           />
                         </CInputGroup>
-                        <CInputGroup className="mb-4">
+                        <div style={{ margin: 15, color: "red" }}>
+                          {errors.email && touched.email && errors.email}
+                        </div>
+
+                        <CInputGroup className="mb-3">
                           <CInputGroupText>
-                            <CIcon icon={cilLockLocked} />
+                            <CIcon icon={cilUser} />
                           </CInputGroupText>
                           <CFormInput
                             type="password"
                             name="password"
-                            placeholder="Password"
-                            autoComplete="current-password"
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.password}
                           />
                         </CInputGroup>
-
-                        {errors.password && touched.password && errors.password}
+                        <div style={{ margin: 15, color: "red" }}>
+                          {errors.password &&
+                            touched.password &&
+                            errors.password}
+                        </div>
                         <CRow>
-                          <CCol xs={6}>
-                            <CButton
-                              color="primary"
-                              className="px-4"
-                              type="submit"
-                              disabled={isSubmitting}
-                            >
-                              ورود
-                            </CButton>
-                          </CCol>
-                          <CCol xs={6} className="text-right">
-                            <CButton color="link" className="px-0">
-                              فراموش رمز عبور?
-                            </CButton>
-                          </CCol>
+                          <CButton
+                            type="submit"
+                            color="primary"
+                            className="px-4"
+                            disabled={isSubmitting}
+                          >
+                            Submit
+                          </CButton>
                         </CRow>
-                       
                       </form>
                     )}
                   </Formik>
