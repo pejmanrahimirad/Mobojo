@@ -21,10 +21,7 @@ import Recaptcha from "react-recaptcha";
 import axios from "axios";
 import { cilLockLocked, cilUser } from "@coreui/icons";
 import { AuthContext } from "src/context/auth/authContext";
-
-import { createBrowserHistory } from "history";
-const history = createBrowserHistory();
-
+import history from "src/context/auth/history";
 const validateSchema = Yup.object().shape({
   email: Yup.string()
     .min(11, "نام کاربری شما باید 11 کاراکتر باشد")
@@ -88,7 +85,8 @@ const Login = (props) => {
                             const { token } = res.data.data.login;
                             dispatch({ type: "login", payload: token });
                             setSubmitting(false);
-                            history.replace("/dashboard#/dashboard");
+                            history.replace('/dashboard',{some:'state'})
+                            history.go()
                           } else {
                             console.log(res.data.errors[0]);
                             const { message } = res.data.errors[0];

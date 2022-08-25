@@ -1,6 +1,5 @@
 import React, { useReducer } from "react";
-import {createBrowserHistory} from 'history'
-const history=createBrowserHistory();
+import history from "./history";
 export const AuthContext = React.createContext();
 const authReducer = (state, action) => {
   switch (action.type) {
@@ -11,8 +10,10 @@ const authReducer = (state, action) => {
     }
     case "check": {
       const token = localStorage.getItem("token");
+
       if(!token){
-       history.replace('/',{some:'state'})
+       history.push('/',{some:'state'})
+       history.go();
         // window.location.href='http://127.0.0.1:3000/'
       }
       break;

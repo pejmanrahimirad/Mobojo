@@ -66,3 +66,27 @@
 input[type="file"]{
 display: none;
 }
+
+.mediaSection{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    width: 90%;
+    margin:auto;
+
+}
+
+.media{
+    width: 17.5%;
+    height: 5px auto;
+    padding: 10px;
+    margin:5px;
+    border:1px solid #eee;
+    box-shadow:  0 2px 3px #ccc;
+    text-align: center;
+}
+
+.media img{
+    width:125px;
+    height: 125px;
+}

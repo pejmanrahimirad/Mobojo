@@ -1,7 +1,11 @@
-import React from 'react'
+import React,{useContext,useEffect} from 'react'
 import { AppContent, AppSidebar, AppFooter, AppHeader } from '../components/index'
-
-const DefaultLayout = () => {
+import { AuthContext } from 'src/context/auth/authContext'
+const DefaultLayout = (props) => {
+  const { dispatch } = useContext(AuthContext);
+  useEffect(()=>{
+    dispatch({type:'check',payload:props})
+  },[])
   return (
     <div>
       <AppSidebar />

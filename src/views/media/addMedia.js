@@ -10,13 +10,15 @@ import {
   Button,
   Progress,
 } from "reactstrap";
+import axios from "axios";
 import "./media.css";
 import { AuthContext } from "src/context/auth/authContext";
 import CIcon from "@coreui/icons-react";
 import { cilTrash } from "@coreui/icons";
-import { checkType,maxSelectedFile ,checkFileSize} from "./Funcs";
+import { checkType, maxSelectedFile, checkFileSize } from "./Funcs";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 const AddMedia = (props) => {
   const [loadedFiles, setLoadedFiles] = useState([]);
   const { dispatch } = useContext(AuthContext);
@@ -24,7 +26,8 @@ const AddMedia = (props) => {
     dispatch({ type: "check", payload: props });
   }, []);
   const onFilesLoad = (event) => {
-    if (checkType(event) &&maxSelectedFile(event)&&checkFileSize(event)) {
+    if (checkType(event) && maxSelectedFile(event)) {
+      //&& checkFileSize(event)
       const files = event.target.files;
       const newLoadedFiles = [...loadedFiles];
       for (let index = 0; index < files.length; index++) {
@@ -43,24 +46,74 @@ const AddMedia = (props) => {
     const files = loadedFiles.filter((item) => item != remove);
     setLoadedFiles(files);
   };
-  const onDragOverHandler=(event)=>{
-      event.preventDefault();
+  const onDragOverHandler = (event) => {
+    event.preventDefault();
+  };
+  const onDropHandler = (event) => {
+    event.preventDefault();
+    const files = event.dataTransfer.files;
+    const newLoadedFiles = [...loadedFiles];
+    for (let index = 0; index < files.length; index++) {
+      const element = files[index];
+      newLoadedFiles.push({
+        file: element,
+        preview: URL.createObjectURL(element),
+        loaded: 23,
+      });
+    }
+    setLoadedFiles(newLoadedFiles);
+  };
 
-  }
-  const onDropHandler=(event)=>{
-      event.preventDefault();
-      const files=event.dataTransfer.files
-      const newLoadedFiles = [...loadedFiles];
-      for (let index = 0; index < files.length; index++) {
-        const element = files[index];
-        newLoadedFiles.push({
-          file: element,
-          preview: URL.createObjectURL(element),
-          loaded: 23,
-        });
+  const Upload = async () => {
+    const tempLoadedFiles = [...loadedFiles];
+    for (let index = 0; index < loadedFiles.length; index++) {
+      const element = loadedFiles[index];
+      if (element.loaded !== 100) {
+        let data = {
+          query: `
+          mutation Mutation( $image : Upload!) {
+            multimedia(image: $image) {
+              status
+              message
+            }
+          }`,
+          variables: {
+            "image": null,
+          },
+        };
+        let map = {
+          0: ["variables.image"]
+        };
+        const FormD = new FormData();
+        FormD.append("operations", JSON.stringify(data));
+        FormD.append("map", JSON.stringify(map));
+        FormD.append(0, element.file, element.file.name);
+
+     
+        await axios({
+          url: "/",
+          method: "post",
+          data: FormD,
+          onUploadProgress: (ProgressEvent) => {
+            tempLoadedFiles[index].loaded =
+              (ProgressEvent.loaded / ProgressEvent.total) * 100;
+          },
+        })
+          .then((response) => {
+            console.log('res',response)
+            if (response.data.errors) {
+              const { message } = response.data.errors[0];
+              toast.error(message);
+            } else {
+              setLoadedFiles(tempLoadedFiles);
+            }
+          })
+          .catch((error) => {
+            console.log("error is: ",error);
+          });
       }
-      setLoadedFiles(newLoadedFiles);
-  }
+    }
+  };
   return (
     <div className="animated fadeIn">
       <ToastContainer />
@@ -69,9 +122,10 @@ const AddMedia = (props) => {
           <h6>اضافه کردن پرونده چند رسانه ای</h6>
         </CardHeader>
         <CardBody>
-          <div className="addMediaSection"
-          onDragOver={onDragOverHandler}
-          onDrop={onDropHandler}
+          <div
+            className="addMediaSection"
+            onDragOver={onDragOverHandler}
+            onDrop={onDropHandler}
           >
             <div className="filePreview">
               {loadedFiles.map((file, index) => {
@@ -115,7 +169,7 @@ const AddMedia = (props) => {
           </div>
         </CardBody>
         <CardFooter className="footer">
-          <Button type="submit" size="xl" color="primary">
+          <Button row  type="submit" size="xl" color="primary" onClick={Upload}>
             <strong>آپلود</strong>
           </Button>
         </CardFooter>

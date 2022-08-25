@@ -48,10 +48,15 @@ const _nav = [
   },
   {
     component: CNavGroup,
-    name: "کتابخانه ",
+    name: "رسانه",
     to: "/media",
     icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
     items: [
+      {
+        component: CNavItem,
+        name: "کتابخانه",
+        to: "/media/allmedia",
+      },
       {
         component: CNavItem,
         name: "اضافه کردن",

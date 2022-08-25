@@ -2,7 +2,7 @@ import React, { Component, Suspense } from "react";
 import { HashRouter, Route, Routes  } from "react-router-dom";
 import "./scss/style.scss";
 import AuthContextProvider from "./context/auth/authContext";
-
+import history from "./context/auth/history";
 const loading = (
   <div className="pt-3 text-center">
     <div className="sk-spinner sk-spinner-pulse"></div>
@@ -21,10 +21,11 @@ const Page500 = React.lazy(() => import("./views/pages/page500/Page500"));
 class App extends Component {
   render() {
     return (
-      <HashRouter>
-        <Suspense fallback={loading}>
-          <AuthContextProvider>
-            <Routes>
+      <HashRouter  history={history}  >
+        <Suspense fallback={loading} >
+         
+          <AuthContextProvider >
+            <Routes >
               <Route exact path="/" name="Login Page"  element={<Login />} />
               <Route exact path="/register"name="Register Page"element={<Register />}/>
               <Route exact path="/404" name="Page 404" element={<Page404 />} />
