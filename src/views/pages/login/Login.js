@@ -81,7 +81,6 @@ const Login = (props) => {
                         .then((res) => {
                           setLoading(false);
                           if (res.data != null && res.data.data != null) {
-                            // const {message}=res.data.data.message
                             const { token } = res.data.data.login;
                             dispatch({ type: "login", payload: token });
                             setSubmitting(false);
@@ -106,7 +105,6 @@ const Login = (props) => {
                       handleBlur,
                       handleSubmit,
                       isSubmitting,
-                      /* and other goodies */
                     }) => (
                       <form onSubmit={handleSubmit}>
                         <div style={{ margin: 15, color: "red" }}>

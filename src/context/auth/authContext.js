@@ -11,13 +11,20 @@ const authReducer = (state, action) => {
     case "check": {
       const token = localStorage.getItem("token");
 
-      if(!token){
-       history.push('/',{some:'state'})
-       history.go();
-        // window.location.href='http://127.0.0.1:3000/'
+      if (!token) {
+        history.push("/", { some: "state" });
+        history.go();
       }
       break;
     }
+
+    case "logout": {
+      localStorage.removeItem("token");
+      history.push("/");
+      history.go();
+      break;
+    }
+
     default:
       return state;
   }

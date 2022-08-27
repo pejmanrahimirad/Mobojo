@@ -13,15 +13,12 @@ import {
 } from "reactstrap";
 import axios from "axios";
 import "./media.css";
-import { AuthContext } from "src/context/auth/authContext";
-
 import CIcon from "@coreui/icons-react";
 import { cilTrash } from "@coreui/icons";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const AllMedia = (props) => {
-  const { dispatch } = useContext(AuthContext);
   const [allMedia, setAllMedia] = useState([]);
   const [loading, setLoading] = useState(true);
   const [arrayHolder, setArrayHolder] = useState([]);
@@ -32,8 +29,6 @@ const AllMedia = (props) => {
   const [keyboard, setKeyboard] = useState(true);
 
   useEffect(() => {
-    dispatch({ type: "check", payload: props });
-
     function fetchData() {
       axios({
         url: "/",

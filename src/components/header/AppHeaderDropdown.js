@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useContext}from 'react'
 import {
   CAvatar,
   CBadge,
@@ -21,10 +21,16 @@ import {
   cilUser,
 } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
-
+import { AuthContext } from 'src/context/auth/authContext'
 import avatar8 from './../../assets/images/avatars/8.jpg'
 
-const AppHeaderDropdown = () => {
+const AppHeaderDropdown = (props) => {
+  
+const {dispatch} =useContext(AuthContext)
+const signout=(e)=>{
+  e.preventDefault();
+  dispatch({type:'logout',payload:props})
+}
   return (
     <CDropdown variant="nav-item">
       <CDropdownToggle placement="bottom-end" className="py-0" caret={false}>
@@ -84,7 +90,7 @@ const AppHeaderDropdown = () => {
           </CBadge>
         </CDropdownItem>
         <CDropdownDivider />
-        <CDropdownItem href="#">
+        <CDropdownItem href="#" onClick={signout}>
           <CIcon icon={cilLockLocked} className="me-2" />
           Lock Account
         </CDropdownItem>

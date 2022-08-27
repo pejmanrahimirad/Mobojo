@@ -63,6 +63,23 @@ const _nav = [
         to: "/media/addmedia",
       },
     ],
+  },{
+    component: CNavGroup,
+    name: "امور فروشگاه",
+    to: "/shop",
+    icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: "دسته بندی",
+        to: "/shop/category",
+      },
+      {
+        component: CNavItem,
+        name: "اضافه کردن",
+        to: "/media/addmedia",
+      },
+    ],
   },
   {
     component: CNavGroup,

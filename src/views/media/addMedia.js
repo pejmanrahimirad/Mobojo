@@ -12,7 +12,6 @@ import {
 } from "reactstrap";
 import axios from "axios";
 import "./media.css";
-import { AuthContext } from "src/context/auth/authContext";
 import CIcon from "@coreui/icons-react";
 import { cilTrash } from "@coreui/icons";
 import { checkType, maxSelectedFile, checkFileSize } from "./Funcs";
@@ -21,10 +20,6 @@ import "react-toastify/dist/ReactToastify.css";
 
 const AddMedia = (props) => {
   const [loadedFiles, setLoadedFiles] = useState([]);
-  const { dispatch } = useContext(AuthContext);
-  useEffect(() => {
-    dispatch({ type: "check", payload: props });
-  }, []);
   const onFilesLoad = (event) => {
     if (checkType(event) && maxSelectedFile(event)) {
       //&& checkFileSize(event)

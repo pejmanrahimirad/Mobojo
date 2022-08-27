@@ -53,12 +53,14 @@ const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
 //Media
 const AddMedia=React.lazy(()=>import('./views/media/addMedia'))
 const AllMedia=React.lazy(()=>import('./views/media/AllMedia'))
+const Category=React.lazy(()=>import('./views/Shop/Category'))
 
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
   { path: '/media/addMedia', name: 'اضافه کردن پرونده چند رسانه ای', element: AddMedia },
+  { path: '/shop/category', name: ' دسته بندی', element: Category },
   { path: '/media/allMedia', name: 'نمایش پرونده چند رسانه ای', element: AllMedia },
   { path: '/theme', name: 'Theme', element: Colors, exact: true },
   { path: '/theme/colors', name: 'Colors', element: Colors },

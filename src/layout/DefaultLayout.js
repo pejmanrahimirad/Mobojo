@@ -6,6 +6,9 @@ const DefaultLayout = (props) => {
   useEffect(()=>{
     dispatch({type:'check',payload:props})
   },[])
+
+  const loading=<div className='animated fadeIn pt-1 text-center'>Loading...</div>
+
   return (
     <div>
       <AppSidebar />
@@ -14,7 +17,7 @@ const DefaultLayout = (props) => {
         <div className="body flex-grow-1 px-3">
           <AppContent />
         </div>
-        <AppFooter />
+        <AppFooter fallback={loading} />
       </div>
     </div>
   )
