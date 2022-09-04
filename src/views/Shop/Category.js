@@ -58,6 +58,10 @@ const Category = (props) => {
     setImage(item);
     setModal(false);
   };
+  const titleOnBlur = () => {
+    setMainCategory(true);
+    ChangeStatus(!status);
+  };
   const handleTitle = (event) => {
     setTitle(event.target.value);
   };
@@ -73,16 +77,17 @@ const Category = (props) => {
   };
   const handleSubtitle = (event) => {
     setSubTitle(event.target.value);
-    console.log(event.target.value);
+    // console.log(event.target.value);
   };
   const submitForm = () => {
     let parent = null;
-    if (mainSubTitle !== "" && subTitle === "") {
+    if (mainSubTitle !== null && subTitle === null) {
       parent = mainSubTitle;
     }
-    if (mainSubTitle !== "" && subTitle !== "") {
+    if (mainSubTitle !== null && subTitle !== null) {
       parent = subTitle;
     }
+
     axios({
       url: "/",
       method: "post",
@@ -128,6 +133,10 @@ const Category = (props) => {
             parent {
               _id
               name
+              parent{
+                _id
+                name
+              }
             }
             image {
               _id
@@ -148,9 +157,16 @@ const Category = (props) => {
       },
     }).then((res) => {
       if (res.data.data != null) {
-        console.log(res);
+        // console.log(res);
         const { getAllCategory } = res.data.data;
-        setResult(getAllCategory);
+        const resArray=[]
+        for (let index = 0; index < getAllCategory.length; index++) {
+          const element = getAllCategory[index];
+          if(element.parent!=null&&element.parent.parent!=null)
+          continue;
+          resArray.push(element)
+        }
+        setResult(resArray);
       }
       else{
         alert('hi')
@@ -190,7 +206,7 @@ const Category = (props) => {
       },
     }).then((res) => {
       if (res.data.data != null) {
-        console.log(res);
+        // console.log(res);
         const { getAllCategory } = res.data.data;
         if (mainCategory) {
           setMainSubTitleFromServer(getAllCategory);
@@ -198,16 +214,13 @@ const Category = (props) => {
         if (parentCategory) {
           setSubtitleFromServer(getAllCategory);
         }
-        toast.success("دسته بندی ها دریافت شد");
+        // toast.success("دسته بندی ها دریافت شد");
       } else {
         toast.error(res.data.errors[0].message);
       }
     });
   }, [status]);
-  const titleOnBlur = () => {
-    setMainCategory(true);
-    ChangeStatus(!status);
-  };
+  
   return (
     <div className="animated fadeIn">
       <ToastContainer />
@@ -252,7 +265,7 @@ const Category = (props) => {
                   id="mainSubTitle"
                   onChange={handleMainSubtitle}
                 >
-                  <option>یک دسته بندی را انتخاب کنید</option>
+                  <option>انتخاب کنید</option>
                   {mainSubTitleFromServer.map((item) => {
                     return (
                       <option value={item._id} key={item._id}>
@@ -272,7 +285,7 @@ const Category = (props) => {
                   id="SubTitle"
                   onChange={handleSubtitle}
                 >
-                  <option>یک دسته بندی را انتخاب کنید</option>
+                  <option>انتخاب کنید</option>
                   {subTitleFromServer.map((item) => {
                     return (
                       <option value={item._id} key={item._id}>

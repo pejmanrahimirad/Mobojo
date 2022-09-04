@@ -1,0 +1,89 @@
+.brandSection {
+  display: flex;
+  flex-flow: wrap;
+  justify-content: flex-start;
+  /* width: 90%; */
+  margin: 20px auto;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  align-items: self-start;
+  min-height: 100px;
+}
+.brand {
+  /* width: auto; */
+  position: relative;
+  margin: 5px auto;
+  border: 1px solid #eee;
+  box-shadow: 0 2px 3px #ccc;
+  text-align: center;
+  padding: 5px;
+  justify-content: center;
+  display: flex;
+  flex-flow: row;
+}
+.remove-item {
+  position: absolute;
+  color: white;
+  background-color: red;
+  padding: 0 3px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 5px;
+  line-height: 0.9;
+  right: 5px;
+}
+
+.fileSelection {
+  padding: 0.25rem 0.5rem;
+  font-size: 1.245rem;
+  line-height: 1.5;
+  border-radius: 0.2rem;
+  background-color: #20a8d8;
+  border-color: #20a8d8;
+  color: #fff;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.selectFile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.file-dashed {
+  border: 2px dashed #ccc;
+  padding: 20px;
+}
+
+.previewImage{
+  height: auto;
+  width: 200px;
+  border-radius: 5px;
+}
+.showImage{
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+}
+
+.addButton{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: darkorange;
+  
+
+}
+.addButton svg{
+  cursor: pointer;
+}
+.showSurvey{
+  color: #63c2de;
+  text-decoration: underline;
+  cursor: pointer;
+}

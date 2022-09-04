@@ -75,21 +75,15 @@ const Library = (props) => {
     });
     setAllMedia(newData);
   };
-  const { modal, toggle, setModal ,addImage} = props;
+  const { modal,  toggleLarge, setModal ,addImage} = props;
   return (
     <div className="animated fadeIn">
       <ToastContainer />
       <Card>
-        <Modal isOpen={modal} toggle={toggle} className={"modal-lg "}>
-          <ModalHeader  toggle={toggle}>
+        <Modal isOpen={modal} toggle={toggleLarge} className={"modal-lg "}>
+          <ModalHeader  toggle={toggleLarge}>
             <Row>
-              <Col
-                style={{ cursor: "pointer" }}
-                xs="1"
-                onClick={() => setModal(false)}
-              >
-                <div>X</div>
-              </Col>
+            
               <Col xs="10">
                 <Input
                   type="text"

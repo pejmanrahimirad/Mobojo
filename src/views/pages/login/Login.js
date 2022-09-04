@@ -166,8 +166,7 @@ const Login = (props) => {
                 </CCardBody>
               </CCard>
               <CCard
-                className="text-white bg-primary py-5"
-                style={{ width: "44%" }}
+                className="text-white bg-primary py-5 p-4"
               >
                 <CCardBody className="text-center">
                   <div>
