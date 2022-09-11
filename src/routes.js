@@ -58,15 +58,21 @@ const AllMedia=React.lazy(()=>import('./views/media/AllMedia'))
 const Category=React.lazy(()=>import('./views/Shop/Category'))
 const Brand=React.lazy(()=>import('./views/Shop/Brand'))
 const Scoring=React.lazy(()=>import('./views/Shop/Scoring'))
+const Specifications=React.lazy(()=>import('./views/Shop/Specifications'))
+const SubSpecifications=React.lazy(()=>import('./views/Shop/SubSpecifications'))
+const Seller=React.lazy(()=>import('./views/Products/Seller'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
   { path: '/media/addMedia', name: 'اضافه کردن پرونده چند رسانه ای', element: AddMedia },
+  { path: '/media/allMedia', name: 'نمایش پرونده چند رسانه ای', element: AllMedia },
   { path: '/shop/brand', name: 'برند ها', element: Brand },
   { path: '/shop/category', name: ' دسته بندی', element: Category },
   { path: '/shop/scoring', name: ' مشخصات امتیازدهی', element: Scoring },
-  { path: '/media/allMedia', name: 'نمایش پرونده چند رسانه ای', element: AllMedia },
+  { path: '/shop/Specifications', name: ' مشخصات محصول', element: Specifications },
+  { path: '/shop/SubSpecifications', name: 'ریز مشخصات محصول', element: SubSpecifications },
+  { path: '/products/seller', name: 'فروشنده', element: Seller },
   { path: '/theme', name: 'Theme', element: Colors, exact: true },
   { path: '/theme/colors', name: 'Colors', element: Colors },
   { path: '/theme/typography', name: 'Typography', element: Typography },

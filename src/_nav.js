@@ -63,7 +63,8 @@ const _nav = [
         to: "/media/addmedia",
       },
     ],
-  },{
+  },
+  {
     component: CNavGroup,
     name: "امور فروشگاه",
     to: "/shop",
@@ -84,7 +85,30 @@ const _nav = [
         name: "مشخصات امتیازدهی",
         to: "/shop/scoring",
       },
+      {
+        component: CNavItem,
+        name: "مشخصات محصول",
+        to: "/shop/specifications",
+      },
+      {
+        component: CNavItem,
+        name: "ریز مشخصات محصول",
+        to: "/shop/subspecifications",
+      },
     ],
+  },
+  {
+    component:CNavGroup,
+    name:'محصول',
+    to:'/products',
+    icon:<CIcon icon={cilPuzzle} customClassName="nav-icon" />,
+    items:[
+      {
+        component: CNavItem,
+        name: "فروشنده",
+        to: "/products/seller",
+      },
+    ]
   },
   {
     component: CNavGroup,
