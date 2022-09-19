@@ -79,17 +79,17 @@ const Seller = (props) => {
         const { getAllCategory } = res.data.data;
         const filteredArry = [];
         getAllCategory.filter((x) => {
-          if (x.parent != null) {
-            if (x.parent.parent == null) {
-              filteredArry.push(x);
-            }
+          if (x.parent == null) {
+            filteredArry.push(x);
+         
           }
         });
         setCategoryFromServer(filteredArry);
 
         // toast.success("دسته بندی ها دریافت شد");
       } else {
-        toast.error(res.data.errors[0].message);
+        console.log(res.data)
+        // toast.error(res.data.errors[0].message);
       }
     });
   }, []);

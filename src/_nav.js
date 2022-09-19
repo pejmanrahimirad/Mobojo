@@ -18,33 +18,36 @@ import { CNavGroup, CNavItem, CNavTitle } from "@coreui/react";
 const _nav = [
   {
     component: CNavItem,
-    name: "Dashboard",
+    name: "داشبرد",
     to: "/dashboard",
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
     badge: {
       color: "info",
-      text: "NEW",
+      text: "جدید",
     },
   },
   {
-    component: CNavTitle,
-    name: "Theme",
-  },
-  {
-    component: CNavItem,
-    name: "Colors",
-    to: "/theme/colors",
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
-  },
-  {
-    component: CNavItem,
-    name: "Typography",
-    to: "/theme/typography",
-    icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
-  },
-  {
-    component: CNavTitle,
-    name: "Components",
+    component: CNavGroup,
+    name: "محصول",
+    to: "/products",
+    icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: "فروشنده",
+        to: "/products/seller",
+      },
+      {
+        component: CNavItem,
+        name: "گارانتی",
+        to: "/products/warranty",
+      },
+      {
+        component: CNavItem,
+        name: "اضافه کردن محصول",
+        to: "/products/addproduct",
+      },
+    ],
   },
   {
     component: CNavGroup,
@@ -97,19 +100,28 @@ const _nav = [
       },
     ],
   },
+
   {
-    component:CNavGroup,
-    name:'محصول',
-    to:'/products',
-    icon:<CIcon icon={cilPuzzle} customClassName="nav-icon" />,
-    items:[
-      {
-        component: CNavItem,
-        name: "فروشنده",
-        to: "/products/seller",
-      },
-    ]
+    component: CNavTitle,
+    name: "Theme",
   },
+  {
+    component: CNavItem,
+    name: "Colors",
+    to: "/theme/colors",
+    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: "Typography",
+    to: "/theme/typography",
+    icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavTitle,
+    name: "Components",
+  },
+
   {
     component: CNavGroup,
     name: "Base",
