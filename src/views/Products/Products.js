@@ -73,6 +73,7 @@ const Products = (props) => {
               }
             }
             attribute {
+              _id
               suggestion
               seller {
                 _id
@@ -162,12 +163,53 @@ const Products = (props) => {
     setAttribute(newAttributeState)
   }
   const handleSuggestion=(id,value)=>{
-    console.log('hi')
     const field = { ...attribute[id] }
     field.suggestion=value
     const newAttributeState=[...attribute]
     newAttributeState[id]=field
     setAttribute(newAttributeState)
+  }
+  const editSellers=()=>{
+    const attributeHolder=[]
+    attribute.map((item)=>{
+      attributeHolder.push({
+        id:item._id,
+        seller:item.seller._id,
+        warranty:item.warranty._id,
+        color:item.color,
+        price:parseFloat(item.price),
+        discount:parseFloat(item.discount),
+        stock:parseFloat(item.stock),
+        suggestion:item.suggestion
+      })
+    })
+    console.log(attributeHolder)
+    axios({
+      url: "/",
+      method: "post",
+      data: {
+        query: `mutation Mutation($input: InputProductAttribute) {
+          updateProductAttribute(input: $input) {
+            status
+            message
+          }
+        }`,
+        variables: {
+          "input": {
+
+              "attribute": attributeHolder
+          }
+        },
+      },
+    }).then((res) => {
+      console.log(res);
+      if (res.data.data != null) {
+        // const { getProduct } = res.data.data;
+        // setProducts(getProduct)
+      } else {
+        toast.error(res.data.errors[0].message);
+      }
+    });
   }
   return (<div className="animated fadeIn">
     <ToastContainer />
@@ -277,6 +319,7 @@ const Products = (props) => {
         handleChangePrice={handleChangePrice}
         handleChangeDiscount={handleChangeDiscount}
         handleSuggestion={handleSuggestion}
+        editSellers={editSellers}
       /> : null
     }
   </div>)

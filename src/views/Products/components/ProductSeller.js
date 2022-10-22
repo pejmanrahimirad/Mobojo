@@ -5,13 +5,14 @@ import {
     CardHeader,
     Col,
     Input,
-    Spinner,
+    Button,
     Modal,
     ModalBody,
     ModalHeader,
     Row,
     FormGroup,
     Label,
+    ModalFooter,
 } from "reactstrap";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
@@ -28,6 +29,7 @@ const ProductSeller = (props) => {
         handleChangeStock,
         handleChangePrice,
         handleChangeDiscount,
+        editSellers,
         handleSuggestion } = props;
     return (
         <div className="animated fadeIn">
@@ -188,6 +190,10 @@ const ProductSeller = (props) => {
                             })}
                         </div>
                     </ModalBody>
+                    <ModalFooter>
+                        <Button color="danger" onClick={editSellers}>ویرایش</Button>
+                        <Button color="secondary" onClick={toggle} >لغو</Button>
+                    </ModalFooter>
                 </Modal>
             </Card>
         </div>
