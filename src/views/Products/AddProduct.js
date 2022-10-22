@@ -38,6 +38,12 @@ import "react-toastify/dist/ReactToastify.css";
 import "./style.css";
 import CIcon from "@coreui/icons-react";
 import { cibAddthis, cilTrash } from "@coreui/icons";
+import { PejmanCKEditor } from "../pejmanComponents/CKEditor";
+import { checkType, checkFileSize } from "../media/Funcs";
+import { InsertImage } from "./components/insertImage";
+
+import GetToken from "src/context/auth/GetToken";
+const token = GetToken();
 const AddProduct = (props) => {
   const [fname, setFname] = useState("");
   const [ename, setEname] = useState("");
@@ -60,7 +66,11 @@ const AddProduct = (props) => {
   const [price, setPrice] = useState(0);
   const [discountPrice, setDiscountPrice] = useState(0);
   const [info, setInfo] = useState([]);
-  const [spces,setSpecs]=useState([])
+  const [specss, setSpecs] = useState([]);
+  const [description, setDescription] = useState("");
+
+  const [file, setFile] = useState("");
+  const [image, setImage] = useState("");
   useEffect(() => {
     axios({
       url: "/",
@@ -209,10 +219,10 @@ const AddProduct = (props) => {
           for (let j = 0; j < element.details.length; j++) {
             const item = element.details[j];
             specs[i].details[j].value = "";
-            specs[i].details[j].label= "";
+            specs[i].details[j].label = "";
           }
         }
-        console.log(specs);
+        setSpecs(specs);
       } else {
         toast.error(res.data.errors[0].message);
         setBrands([]);
@@ -263,35 +273,116 @@ const AddProduct = (props) => {
     return name[0].name;
   };
   const handleSubmit = () => {
+    console.log(brandId)
+    let IDforServer = null;
+    if (thirdSubCat) {
+      IDforServer = thirdSubCat;
+    } else {
+      IDforServer = subCatId;
+    }
+    const SpecArray = [];
+    specss.map((spec) => {
+      return spec.details.map((item) => {
+        SpecArray.push({
+          pdetails: item._id,
+          value: item.value,
+          label: item.label,
+        });
+      });
+    });
+    let data={
+      query: `mutation AddProduct($input: InputProduct) {
+                addProduct(input: $input) {
+                  status
+                  message
+                }
+              }`,
+      variables: {
+        input: {
+          fname: fname,
+          ename: ename,
+          brand: brandId,
+          category: IDforServer[0]._id,
+          details: SpecArray,
+          description: description,
+          original: null,
+          attribute: info
+        },
+      },
+    }
+    
+    let map = {
+      0: ["variables.input.original"],
+    };
+    const FormD = new FormData();
+    FormD.append("operations", JSON.stringify(data));
+    FormD.append("map", JSON.stringify(map));
+    FormD.append(0, file, file.name);
+    let options = {
+      method: "POST",
+      headers: {
+        token: `${token}`,
+      },
+      body: FormD,
+    };
+    let url = `http://localhost:4000/graphql`;
+    fetch(url, options)
+    .then((res) => res.json())
+    .then((responese) => {
+      console.log(responese)
+      
+      if (responese.data!=null) {
+        toast.success("محصول با موفقیت ثبت شد");
+      } else {
+        toast.error("ثبت محصول  با مشکل روبه رو شد");
+      }
+    })
+    .catch((err) => console.log(err));
+
     // axios({
     //   url: "/",
     //   method: "post",
-    //   data: {
-    //     query: `mutation Warranty($input: InputWarranty) {
-    //         warranty(input: $input) {
-    //           status
-    //           message
-    //         }
-    //       }`,
-    //     variables: {
-    //       input: {
-    //         name: title,
-    //         label: label,
-    //       },
-    //     },
-    //   },
+    //   data:FormD
     // }).then((res) => {
     //   console.log(res);
     //   if (res.data.data != null) {
-    //     toast.success("گارانتی اضافه شد");
-    //     setTitle("");
-    //     setLabel("");
+    //     toast.success("محصول اضافه شد");
+       
     //   } else {
     //     toast.error(res.data.errors[0].message);
     //   }
     // });
   };
+  const handleChangeSpecsName = (event, specsId, id) => {
+    const tempSpecs = specss[specsId];
+    const tempSpecsDetails = { ...tempSpecs.details[id] };
+    tempSpecsDetails.value = event.target.value;
+    const newState = [...specss];
+    newState[specsId].details[id] = tempSpecsDetails;
+    setSpecs(newState);
+  };
 
+  const handleChangeSpecsLabel = (event, specsId, id) => {
+    const tempSpecs = specss[specsId];
+    const tempSpecsDetails = { ...tempSpecs.details[id] };
+    tempSpecsDetails.label = event.target.value;
+    const newState = [...specss];
+    newState[specsId].details[id] = tempSpecsDetails;
+    setSpecs(newState);
+  };
+  const descriptionHandler = (event, editor) => {
+    const data = editor.getData();
+    setDescription(data);
+    console.log({ event, editor, data });
+  };
+
+  const handleChangePicture = (event) => {
+    if (checkType(event)) {
+      setFile(event.target.files[0]);
+      const preview = URL.createObjectURL(event.target.files[0]);
+      setImage(preview);
+    }
+  };
   return (
     <div className="animated fadeIn">
       <ToastContainer />
@@ -613,6 +704,76 @@ const AddProduct = (props) => {
                   </Row>
                 );
               })}
+            </Row>
+
+            <hr />
+
+            {specss != undefined
+              ? specss.map((spec, index) => {
+                  return (
+                    <Card key={spec._id}>
+                      <CardHeader>{spec.specs}</CardHeader>
+                      <CardBody>
+                        {spec.details.map((item, idx) => {
+                          const Id = `name-${item._id}`;
+                          const LabelId = `label-${item._id}`;
+                          return (
+                            <Row key={item._id}>
+                              <Col xs="4">
+                                <FormGroup>
+                                  <Input
+                                    type="text"
+                                    value={item.name}
+                                    disabled
+                                  />
+                                </FormGroup>
+                              </Col>
+                              <Col xs="4">
+                                <FormGroup>
+                                  <Input
+                                    type="text"
+                                    id={Id}
+                                    name={Id}
+                                    value={item.value}
+                                    onChange={(event) =>
+                                      handleChangeSpecsName(event, index, idx)
+                                    }
+                                    required
+                                  />
+                                </FormGroup>
+                              </Col>
+                              <Col xs="4">
+                                <FormGroup>
+                                  <Input
+                                    type="text"
+                                    id={Id}
+                                    name={Id}
+                                    onChange={(event) =>
+                                      handleChangeSpecsLabel(event, index, idx)
+                                    }
+                                    value={item.label}
+                                    placeholder="توضیحات درصورت نیاز"
+                                  />
+                                </FormGroup>
+                              </Col>
+                            </Row>
+                          );
+                        })}
+                      </CardBody>
+                    </Card>
+                  );
+                })
+              : null}
+
+            <Row>
+              <PejmanCKEditor
+                title={"توضیحات"}
+                data={description}
+                onChange={descriptionHandler}
+              />
+            </Row>
+            <Row>
+              <InsertImage onChange={handleChangePicture} image={image} />
             </Row>
           </FormGroup>
         </CardBody>
