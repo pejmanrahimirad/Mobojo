@@ -65,6 +65,7 @@ const SubSpecifications=React.lazy(()=>import('./views/Shop/SubSpecifications'))
 const Seller=React.lazy(()=>import('./views/Products/Seller'))
 const Warranty=React.lazy(()=>import('./views/Products/Warranty'))
 const AddProduct=React.lazy(()=>import('./views/Products/AddProduct'))
+const Products=React.lazy(()=>import('./views/Products/Products'))
 
 const routes = [
   { path: '/', exact: true, name: 'صفحه اصلی' },
@@ -79,6 +80,7 @@ const routes = [
   { path: '/products/seller', name: 'فروشنده', element: Seller },
   { path: '/products/warranty', name: 'گارانتی', element: Warranty },
   { path: '/products/addproduct', name: 'محصول', element: AddProduct },
+  { path: '/products/products', name: 'محصول', element: Products },
   { path: '/theme', name: 'Theme', element: Colors, exact: true },
   { path: '/theme/colors', name: 'Colors', element: Colors },
   { path: '/theme/typography', name: 'Typography', element: Typography },

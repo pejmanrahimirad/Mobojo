@@ -34,6 +34,16 @@ const _nav = [
     items: [
       {
         component: CNavItem,
+        name: "محصولات",
+        to: "/products/products",
+      },
+      {
+        component: CNavItem,
+        name: "اضافه کردن محصول",
+        to: "/products/addproduct",
+      },
+      {
+        component: CNavItem,
         name: "فروشنده",
         to: "/products/seller",
       },
@@ -42,11 +52,7 @@ const _nav = [
         name: "گارانتی",
         to: "/products/warranty",
       },
-      {
-        component: CNavItem,
-        name: "اضافه کردن محصول",
-        to: "/products/addproduct",
-      },
+  
     ],
   },
   {
