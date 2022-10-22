@@ -87,3 +87,8 @@ input[type="file"] {
   text-decoration: underline;
   cursor: pointer;
 }
+
+.borderLine{
+  height: 1px;
+  background-color: #ccc;
+}
