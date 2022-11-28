@@ -10,6 +10,7 @@ import {
   ModalBody,
   ModalHeader,
   Row,
+  Button,
 } from "reactstrap";
 import axios from "axios";
 import "./media.css";
@@ -40,7 +41,7 @@ const Library = (props) => {
              }`,
           variables: {
             page: 1,
-            limit: 10,
+            limit: 30,
           },
         },
       })
@@ -53,7 +54,6 @@ const Library = (props) => {
             const customLibrary = getAllMultimedia.map((item) => {
               return { ...item, check: false };
             });
-            console.log(customLibrary);
             setAllMedia(getAllMultimedia);
             setArrayHolder(getAllMultimedia);
             setLoading(false);
@@ -75,7 +75,7 @@ const Library = (props) => {
     });
     setAllMedia(newData);
   };
-  const { modal,  toggleLarge, setModal ,addImage} = props;
+  const { modal,  toggleLarge, setModal ,insertImage ,addImage,multi} = props;
   return (
     <div className="animated fadeIn">
       <ToastContainer />
@@ -125,6 +125,10 @@ const Library = (props) => {
                 })
               )}
             </div>
+            {
+              multi?
+              <Button size="md" color="primary" onClick={insertImage} >افزودن</Button>:null
+            }
           </ModalBody>
         </Modal>
       </Card>

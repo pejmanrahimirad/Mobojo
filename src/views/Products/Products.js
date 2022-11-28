@@ -43,6 +43,7 @@ import { checkType, checkFileSize } from "../media/Funcs";
 import { InsertImage } from "./components/insertImage";
 import ProductSeller from "./components/ProductSeller";
 import GetToken from "src/context/auth/GetToken";
+import AddSeller from "./components/addSeller";
 const token = GetToken();
 
 const Products = (props) => {
@@ -50,7 +51,19 @@ const Products = (props) => {
   const [products, setProducts] = useState([])
   const [modalInfoSeller, setModalInfoSeller] = useState(false)
   const [attribute, setAttribute] = useState([])
+  const [productId, setProductId] = useState(null)
   const [productName, setProductName] = useState('')
+  const [modalAddSeller, setModalAddSeller] = useState(false)
+  const [mainSubTitleFromServer, setMainSubTitleFromServer] = useState([]);
+  const [catId, setCatId] = useState(null)
+  const [sellers, setSellers] = useState([])
+  const [sellerId, setSellerId] = useState(null)
+  const [allWarranty, setAllWarranty] = useState([])
+  const [warrantyId, setWarrantyId] = useState(null)
+  const [color, setColor] = useState(null)
+  const [numberOfProduct, setNumberOfProduct] = useState(null)
+  const [price, setPrice] = useState(0)
+  const [discount, setDiscount] = useState(0)
   useEffect(() => {
     axios({
       url: "/",
@@ -123,6 +136,72 @@ const Products = (props) => {
     });
   }, [])
 
+  useEffect(() => {
+    axios({
+      url: "/",
+      method: "post",
+      data: {
+        query: `query Query($input: InputgetCategory) {
+            getAllCategory(input: $input) {
+              _id
+              name
+              label
+              parent {
+                _id
+                name
+              }
+              image {
+                _id
+                dir
+                name
+              }
+            }
+          }`,
+        variables: {
+          input: {
+            //   page: 1,
+            //   limit: 30,
+            mainCategory: true,
+            parentCategory: false,
+            catId: null,
+          },
+        },
+      },
+    }).then((res) => {
+      if (res.data.data != null) {
+        // console.log(res);
+        const { getAllCategory } = res.data.data;
+        setMainSubTitleFromServer(getAllCategory);
+
+        // toast.success("دسته بندی ها دریافت شد");
+      } else {
+        toast.error(res.data.errors[0].message);
+      }
+    })
+
+    axios({
+      url: "/",
+      method: "post",
+      data: {
+        query: `query Query {
+            getAllWarranty {
+              _id
+              name
+              label
+            }
+          }`,
+      },
+    }).then((res) => {
+      if (res.data.data != null) {
+        const { getAllWarranty } = res.data.data;
+        setAllWarranty(getAllWarranty);
+        // toast.success("دسته بندی ها دریافت شد");
+      } else {
+        toast.error(res.data.errors[0].message);
+      }
+    });
+  }, [])
+
   const toggleinfoSeller = (attr, name) => {
     if (!modalInfoSeller) {
       setAttribute(attr)
@@ -134,53 +213,53 @@ const Products = (props) => {
 
     }
   }
-  const handleChangeStock=(event,id)=>{
+  const handleChangeStock = (event, id) => {
     const field = { ...attribute[id] }
-    field.stock =event.target.value
-    const newAttributeState=[...attribute]
-    newAttributeState[id]=field
+    field.stock = event.target.value
+    const newAttributeState = [...attribute]
+    newAttributeState[id] = field
     setAttribute(newAttributeState)
   }
   const handleChangeColor = (event, id) => {
     const field = { ...attribute[id] }
-    field.color=event.target.value
-    const newAttributeState=[...attribute]
-    newAttributeState[id]=field
+    field.color = event.target.value
+    const newAttributeState = [...attribute]
+    newAttributeState[id] = field
     setAttribute(newAttributeState)
   }
-  const handleChangePrice=(event, id) => {
+  const handleChangePrice = (event, id) => {
     const field = { ...attribute[id] }
-    field.price=event.target.value
-    const newAttributeState=[...attribute]
-    newAttributeState[id]=field
+    field.price = event.target.value
+    const newAttributeState = [...attribute]
+    newAttributeState[id] = field
     setAttribute(newAttributeState)
   }
-  const handleChangeDiscount=(event, id) => {
+  const handleChangeDiscount = (event, id) => {
     const field = { ...attribute[id] }
-    field.discount=event.target.value
-    const newAttributeState=[...attribute]
-    newAttributeState[id]=field
+    field.discount = event.target.value
+    const newAttributeState = [...attribute]
+    newAttributeState[id] = field
     setAttribute(newAttributeState)
   }
-  const handleSuggestion=(id,value)=>{
+  const handleSuggestion = (id, value) => {
     const field = { ...attribute[id] }
-    field.suggestion=value
-    const newAttributeState=[...attribute]
-    newAttributeState[id]=field
+    field.suggestion = value
+    const newAttributeState = [...attribute]
+    newAttributeState[id] = field
     setAttribute(newAttributeState)
   }
-  const editSellers=()=>{
-    const attributeHolder=[]
-    attribute.map((item)=>{
+  const editSellers = () => {
+    const attributeHolder = []
+    attribute.map((item) => {
       attributeHolder.push({
-        id:item._id,
-        seller:item.seller._id,
-        warranty:item.warranty._id,
-        color:item.color,
-        price:parseFloat(item.price),
-        discount:parseFloat(item.discount),
-        stock:parseFloat(item.stock),
-        suggestion:item.suggestion
+        id: item._id,
+        seller: item.seller._id,
+        warranty: item.warranty._id,
+        color: item.color,
+        price: parseFloat(item.price),
+        discount: parseFloat(item.discount),
+        stock: parseFloat(item.stock),
+        suggestion: item.suggestion
       })
     })
     console.log(attributeHolder)
@@ -197,20 +276,126 @@ const Products = (props) => {
         variables: {
           "input": {
 
-              "attribute": attributeHolder
+            "attribute": attributeHolder
           }
         },
       },
     }).then((res) => {
       console.log(res);
       if (res.data.data != null) {
-        // const { getProduct } = res.data.data;
-        // setProducts(getProduct)
+        const { message } = res.data.data.updateProductAttribute;
+        toast.success(message)
+        setModalInfoSeller(false)
       } else {
         toast.error(res.data.errors[0].message);
       }
     });
   }
+  const toggleAddSeller = (name, id) => {
+    if (!modalAddSeller) {
+      setProductName(name)
+      setProductId(id)
+      setModalAddSeller(true)
+    } else {
+      setProductName('')
+      setProductId(null)
+      setModalAddSeller(false)
+    }
+  }
+  const categoryHandler = (event) => {
+    setCatId(event.target.value)
+    axios({
+      url: "/",
+      method: "post",
+      data: {
+        query: `query Query($categoryId: ID!) {
+          getAllSeller(categoryId: $categoryId) {
+            _id
+            name
+            label
+          }
+        }`,
+        variables: {
+          categoryId: event.target.value,
+        },
+      },
+    }).then((res) => {
+      console.log(res);
+      if (res.data.data != null) {
+        const { getAllSeller } = res.data.data;
+        setSellers(getAllSeller);
+      } else {
+        setSellers([]);
+      }
+    });
+  }
+  const sellerHandler = (event) => {
+    setSellerId(event.target.value)
+  }
+  const warrantyHandler = (event) => {
+    setWarrantyId(event.target.value)
+  }
+  const colorHandler = (event) => {
+    setColor(event.target.value)
+  }
+  const numberOfProductHandler = (event) => {
+    setNumberOfProduct(event.target.value)
+  }
+  const priceHandler = (event) => {
+    setPrice(event.target.value)
+  }
+  const discountHandler = (event) => {
+    setDiscount(event.target.value)
+  }
+  const addSellerToProduct = () => {
+  
+    axios({
+      url: "/",
+      method: "post",
+      data: {
+        query: `mutation Mutation($input: InputProductAttribute) {
+          updateProductAttribute(input: $input) {
+            status
+            message
+          }
+        }`,
+        variables: {
+          "input": {
+            "productId": productId,
+            "attribute": [
+              {
+                "seller": sellerId,
+                "warranty": warrantyId,
+                "color": color,
+                "stock": parseInt(numberOfProduct),
+                "price": parseFloat(price),
+                "discount": parseFloat(discount),
+              }
+            ]
+          }
+        },
+      },
+    }).then((res) => {
+      const data=res.data.data
+      if (data != null) {
+        const {updateProductAttribute}=data
+        setProductId(null)
+        setSellerId(null)
+        setWarrantyId(null)
+        setColor('')
+        setNumberOfProduct(0)
+        setPrice(0)
+        setDiscount(0)
+        toggleAddSeller()
+         toast.success(updateProductAttribute.message);
+      } else {
+        toast.error(res.data.errors[0].message);
+      }
+    })
+
+  }
+
+
   return (<div className="animated fadeIn">
     <ToastContainer />
     <Card>
@@ -235,7 +420,7 @@ const Products = (props) => {
 
                 products.map((item) => {
                   const link = `/products/product/${item._id}`
-                  const pictureLink = `/products/product/picture/${item._id}`
+                  const pictureLink = `/products/picture/${item._id}`
 
                   return (<CTableRow key={item._id}>
                     <CTableDataCell>
@@ -257,7 +442,7 @@ const Products = (props) => {
                             size="sm"
                           />
                         </CButton>
-                        <CButton color="danger" size="sm">
+                        <CButton color="danger" size="sm" onClick={() => toggleAddSeller(item.fname, item._id)}>
                           <CIcon
                             icon={cilPlus}
                             color="success"
@@ -274,14 +459,17 @@ const Products = (props) => {
                       <div className="flex-inline">
 
                         <CButton color="primary" size="sm">
+                        <NavLink to={link}>
+
                           <CIcon
                             icon={cilPen}
                             color="success"
                             size="sm"
                           />
+                          </NavLink>
                         </CButton>
                         <CButton color="warning" size="sm">
-                          <NavLink to={link}>
+                          <NavLink to={pictureLink}>
                             <CIcon
                               icon={cilImage}
                               color="success"
@@ -321,6 +509,31 @@ const Products = (props) => {
         handleSuggestion={handleSuggestion}
         editSellers={editSellers}
       /> : null
+    }
+    {
+      modalAddSeller ?
+        <AddSeller
+          modal={modalAddSeller}
+          toggle={toggleAddSeller}
+          productName={productName}
+          categoryHandler={categoryHandler}
+          allCategory={mainSubTitleFromServer}
+          sellers={sellers}
+          sellerHandler={sellerHandler}
+          allWarranty={allWarranty}
+          warrantyHandler={warrantyHandler}
+          colorHandler={colorHandler}
+          numberOfProduct={numberOfProduct}
+          numberOfProductHandler={numberOfProductHandler}
+          price={price}
+          priceHandler={priceHandler}
+          discount={discount}
+          discountHandler={discountHandler}
+          addSellerToProduct={addSellerToProduct}
+        />
+
+        :
+        null
     }
   </div>)
 }

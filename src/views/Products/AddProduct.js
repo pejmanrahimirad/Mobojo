@@ -63,8 +63,8 @@ const AddProduct = (props) => {
   const [warrantyId, setWarrantyId] = useState("");
   const [color, setColor] = useState("black");
   const [count, setCount] = useState(1);
-  const [price, setPrice] = useState(0);
-  const [discountPrice, setDiscountPrice] = useState(0);
+  const [price, setPrice] = useState(1);
+  const [discountPrice, setDiscountPrice] = useState(1);
   const [info, setInfo] = useState([]);
   const [specss, setSpecs] = useState([]);
   const [description, setDescription] = useState("");
@@ -338,20 +338,6 @@ const AddProduct = (props) => {
       }
     })
     .catch((err) => console.log(err));
-
-    // axios({
-    //   url: "/",
-    //   method: "post",
-    //   data:FormD
-    // }).then((res) => {
-    //   console.log(res);
-    //   if (res.data.data != null) {
-    //     toast.success("محصول اضافه شد");
-       
-    //   } else {
-    //     toast.error(res.data.errors[0].message);
-    //   }
-    // });
   };
   const handleChangeSpecsName = (event, specsId, id) => {
     const tempSpecs = specss[specsId];

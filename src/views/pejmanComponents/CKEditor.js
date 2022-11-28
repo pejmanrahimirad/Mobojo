@@ -17,17 +17,17 @@ const PejmanCKEditor = (props) => {
           <CKEditor
             editor={ClassicEditor}
             data={props.data}
-            onReady={(editor) => {
-              // You can store the "editor" and use when it is needed.
-              console.log("Editor is ready to use!", editor);
-            }}
+            // onReady={(editor) => {
+            //   // You can store the "editor" and use when it is needed.
+            //   console.log("Editor is ready to use!", editor);
+            // }}
             onChange={(event, editor) => props.onChange(event, editor)}
-            onBlur={(event, editor) => {
-              console.log("Blur.", editor);
-            }}
-            onFocus={(event, editor) => {
-              console.log("Focus.", editor);
-            }}
+            // onBlur={(event, editor) => {
+            //   console.log("Blur.", editor);
+            // }}
+            // onFocus={(event, editor) => {
+            //   console.log("Focus.", editor);
+            // }}
           />
         </FormGroup>
       </Col>

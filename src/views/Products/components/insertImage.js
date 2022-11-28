@@ -3,13 +3,18 @@ import React from "react";
 import { FormGroup, Col, Row, Label, Input } from "reactstrap";
 import "../style.css";
 const InsertImage = (props) => {
-    const {image}=props;
+  const { image, imageServer } = props;
   return (
     <>
       <Col xs="3">
         <FormGroup row>
           <label htmlFor="file-multiple-input" className="file-dashed">
-            <div className="fileSelection">گزینش پرونده</div>
+            {imageServer?
+            <div className="fileSelection">ویرایش تصویر</div>
+          :
+          <div className="fileSelection">گزینش پرونده</div>
+            
+          }
           </label>
           <Input
             type="file"
@@ -20,11 +25,20 @@ const InsertImage = (props) => {
           />
         </FormGroup>
       </Col>
-      {image ? (
-        <Col xs="9" className="showImage">
-          <img src={image} alt={image} className="previewImage" />
+      {imageServer ?
+          <Col xs="9" className="showImage">
+
+        <img src={`${process.env.REACT_APP_PUBLIC_URL}${imageServer}`} alt={imageServer}
+          className="previewImage"
+        /> 
         </Col>
-      ) : null}
+        :
+
+        image ? (
+          <Col xs="9" className="showImage">
+            <img src={image} alt={image} className="previewImage" />
+          </Col>
+        ) : null}
     </>
   );
 };

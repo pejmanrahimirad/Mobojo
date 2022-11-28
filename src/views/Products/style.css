@@ -60,3 +60,33 @@ input[type="file"] {
 .icon{
   color:white
 }
+
+.InsertPicHeader{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.media{
+  width: 17.5%;
+  height: 5px auto;
+  padding: 10px;
+  margin:5px;
+  border:1px solid #eee;
+  box-shadow:  0 2px 3px #ccc;
+  text-align: center;
+}
+
+.addImageToProductItem{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  
+}
+.addImageToProductItem div{
+  display: flex;
+  flex-direction: row;
+  align-self: flex-end;
+  margin-bottom:5px
+}

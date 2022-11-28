@@ -77,6 +77,7 @@ const Brand = (props) => {
         },
       },
     }).then((res) => {
+      console.log(res)
       if (res.data.data != null) {
         const { getAllCategory } = res.data.data;
         setCategoryFromServer(getAllCategory);
@@ -226,18 +227,15 @@ const Brand = (props) => {
     FormD.append("operations", JSON.stringify(data));
     FormD.append("map", JSON.stringify(map));
     FormD.append(0, file, file.name);
-    let options = {
-      method: "POST",
-      headers: {
-        token: `${token}`,
-      },
-      body: FormD,
-    };
-    let url = `http://localhost:4000/graphql`;
-    fetch(url, options)
-      .then((res) => res.json())
-      .then((responese) => {
+   
+    axios({
+      url:'/',
+      method:'post',
+      data:FormD
+    }).then((responese) => {
+        console.log(responese)
         const { status } = responese.data.brand;
+        
         if (status == 200) {
           toast.success("برند با موفقیت ثبت شد");
         } else {

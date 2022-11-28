@@ -73,6 +73,25 @@ const _nav = [
       },
     ],
   },
+  
+  {
+    component: CNavGroup,
+    name: "سفارش ها",
+    to: "/orders",
+    icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: "سفارش ها",
+        to: "/orders/allorders",
+      },
+      {
+        component: CNavItem,
+        name: "وضعیت سفارش",
+        to: "/orders/status",
+      },
+    ],
+  },
   {
     component: CNavGroup,
     name: "امور فروشگاه",
