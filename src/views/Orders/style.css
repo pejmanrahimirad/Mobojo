@@ -46,3 +46,21 @@ input[type="file"]{
 .change-order-status-list div input {
    margin-left: 1rem;
 }
+
+.cardBody{
+    border:1px solid #ccc
+}
+.statusOrder{
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+}
+.statusImage{
+    width:5rem;
+    height: 5rem;
+    display: block;
+    opacity: .3;
+}
+.isActive{
+    opacity: 1;
+}
