@@ -52,7 +52,7 @@ const _nav = [
         name: "گارانتی",
         to: "/products/warranty",
       },
-  
+
     ],
   },
   {
@@ -73,7 +73,7 @@ const _nav = [
       },
     ],
   },
-  
+
   {
     component: CNavGroup,
     name: "سفارش ها",
@@ -126,6 +126,42 @@ const _nav = [
     ],
   },
 
+  {
+    component: CNavGroup,
+    name: "امور کاربران",
+    to: "/user",
+    icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: "کاربران",
+        to: "/users",
+      },  
+      {
+        component: CNavItem,
+        name: "اضافه کردن",
+        to: "/media/addmedia",
+      },
+    ],
+  },
+  {
+    component: CNavGroup,
+    name: "نظر ها",
+    to: "/comment",
+    icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: "مشاهده همه",
+        to: "/comments",
+      },  
+      // {
+      //   component: CNavItem,
+      //   name: "اضافه کردن",
+      //   to: "/media/addmedia",
+      // },
+    ],
+  },
   {
     component: CNavTitle,
     name: "Theme",

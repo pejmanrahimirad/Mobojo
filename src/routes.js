@@ -74,6 +74,13 @@ const Status=React.lazy(()=>import('./views/Orders/Status.js'))
 const Orders=React.lazy(()=>import('./views/Orders/Orders.js'))
 const OrderDetails=React.lazy(()=>import('./views/Orders/OrderDetails.js'))
 
+//User
+const Users=React.lazy(()=>import('./views/Users/Users.js'))
+const UserInfo=React.lazy(()=>import('./views/Users/userInfo'))
+
+//Comment
+const Comments=React.lazy(()=>import('./views/Comments/Comments'))
+
 
 
 const routes = [
@@ -95,6 +102,9 @@ const routes = [
   { path: '/orders/status', name: 'وضعیت سفارش', element: Status },
   { path: '/orders/allorders', name: ' سفارش ها', element: Orders },
   { path: '/orders/orderdetails/:orderid', name: 'جزئیات سفارش', element: OrderDetails },
+  { path: '/users', name: 'کاربران', element: Users },
+  { path: '/users/userinfo/:id', name: 'مشخصات کاربر', element: UserInfo },
+  { path: '/comments', name: 'نظرات', element: Comments },
   { path: '/theme', name: 'Theme', element: Colors, exact: true },
   { path: '/theme/colors', name: 'Colors', element: Colors },
   { path: '/theme/typography', name: 'Typography', element: Typography },
