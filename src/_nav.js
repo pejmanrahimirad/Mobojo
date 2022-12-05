@@ -137,11 +137,11 @@ const _nav = [
         name: "کاربران",
         to: "/users",
       },  
-      {
-        component: CNavItem,
-        name: "اضافه کردن",
-        to: "/media/addmedia",
-      },
+      // {
+      //   component: CNavItem,
+      //   name: "اضافه کردن",
+      //   to: "/media/addmedia",
+      // },
     ],
   },
   {
