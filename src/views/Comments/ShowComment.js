@@ -46,14 +46,12 @@ const ShowComment = (props) => {
                 }
             }
         }).then((response) => {
-            console.log(response)
             if (response.data.errors) {
                 toast.error('خطا در دریافت اظهار نظر')
             } else {
                 const { getAllComment } = response.data.data;
                 setComments(getAllComment[0])
                 setLoading(false)
-                console.log(loading)
             }
         }).catch((e) => console.log(e))
     }, [])

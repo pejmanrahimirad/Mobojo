@@ -13,12 +13,16 @@ axios.defaults.headers.post['Accept']='application/json'
 axios.defaults.headers.post['token']=token
 import { Provider } from 'react-redux'
 import store from './store'
-
-ReactDOM.render(
+import * as ReactDomClient from 'react-dom/client'
+const root = ReactDomClient.createRoot(document.getElementById('root'))
+root.render(
   <Provider store={store}>
     <App />
-  </Provider>,
-  document.getElementById('root'),
+  </Provider>
 )
+// ReactDOM.render(
+// ,
+//   document.getElementById('root'),
+// )
 
 reportWebVitals()

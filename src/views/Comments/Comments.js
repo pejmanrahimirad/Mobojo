@@ -139,7 +139,7 @@ const AllComments = (props) => {
                                 <CIcon
                                   icon={cilInfo}
                                   color="success"
-                                  size="xs"
+                                  size="sm"
                                   // onClick={addInfo}
                                 />
                               </Button>
