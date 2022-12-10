@@ -177,6 +177,21 @@ const _nav = [
     
     ],
   },
+  
+  {
+    component: CNavGroup,
+    name: "اسلایدر ها",
+    to: "/slider",
+    icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: "مشاهده همه",
+        to: "/sliders",
+      },  
+    
+    ],
+  },
   {
     component: CNavTitle,
     name: "Theme",

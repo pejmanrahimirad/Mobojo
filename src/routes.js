@@ -85,6 +85,9 @@ const ShowComment=React.lazy(()=>import('./views/Comments/ShowComment'))
 //Banner
 const Banner =React.lazy(()=>import('./views/Banner/Banner'))
 
+//Slider
+const Slider =React.lazy(()=>import('./views/Slider/Sliders'))
+
 
 const routes = [
   { path: '/', exact: true, name: 'صفحه اصلی' },
@@ -110,6 +113,7 @@ const routes = [
   { path: '/comments', name: 'نظرات', element: Comments },
   { path: '/comments/showcomment/:id', name: 'اظهار نظر', element: ShowComment },
   { path: '/banners/', name: 'بنر ها', element: Banner },
+  { path: '/sliders/', name: 'اسلایدر ها', element: Slider },
   { path: '/theme', name: 'Theme', element: Colors, exact: true },
   { path: '/theme/colors', name: 'Colors', element: Colors },
   { path: '/theme/typography', name: 'Typography', element: Typography },
