@@ -82,6 +82,8 @@ const UserInfo=React.lazy(()=>import('./views/Users/userInfo'))
 const Comments=React.lazy(()=>import('./views/Comments/Comments'))
 const ShowComment=React.lazy(()=>import('./views/Comments/ShowComment'))
 
+//Banner
+const Banner =React.lazy(()=>import('./views/Banner/Banner'))
 
 
 const routes = [
@@ -107,6 +109,7 @@ const routes = [
   { path: '/users/userinfo/:id', name: 'مشخصات کاربر', element: UserInfo },
   { path: '/comments', name: 'نظرات', element: Comments },
   { path: '/comments/showcomment/:id', name: 'اظهار نظر', element: ShowComment },
+  { path: '/banners/', name: 'بنر ها', element: Banner },
   { path: '/theme', name: 'Theme', element: Colors, exact: true },
   { path: '/theme/colors', name: 'Colors', element: Colors },
   { path: '/theme/typography', name: 'Typography', element: Typography },
